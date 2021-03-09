@@ -21,7 +21,7 @@ def get_idmm_data(idmm):
         cursor.execute(f'SELECT idmm, st_postaje, ime_postaje FROM idmm WHERE idmm={idmm};')
         # Fetch result
         record = cursor.fetchall()
-        print(record)
+        # print(record)
         return record
 
     except (Exception, Error) as error:
@@ -31,6 +31,7 @@ def get_idmm_data(idmm):
             cursor.close()
             connection.close()
             print("PostgreSQL connection is closed")
+
 
 @app.route('/api/v1/idmms', methods=['GET'])
 def api_idmm():
@@ -49,4 +50,4 @@ def api_idmm():
 
 
 if __name__ == "__main__":
-    app.run(port=8000)
+    app.run(host='0.0.0.0', port=8000)

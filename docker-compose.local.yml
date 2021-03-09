@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    command: bash
+    # command: bash
     container_name: simple-fask-api
     image: simple-fask-api-image
     hostname: simple-fask-api
