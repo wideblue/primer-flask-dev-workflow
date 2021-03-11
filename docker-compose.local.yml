@@ -30,6 +30,8 @@ services:
       POSTGRES_PASSWORD: example
     volumes:
       - ./db_data_dump:/db_data_dump
+    ports:
+      - "5432:5432"   
 
   adminer:
     image: adminer
