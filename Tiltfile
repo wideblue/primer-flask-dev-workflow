@@ -6,6 +6,8 @@ k8s_yaml('db-deployment.yaml')
 k8s_yaml('db-service.yaml')
 k8s_yaml('adminer-deployment.yaml')
 k8s_yaml('flask-api-deployment.yaml')
+k8s_yaml('flask-api-service.yaml')
+k8s_yaml('flask-api-ingress.yaml')
 
 k8s_resource('flask-api', port_forwards=8000)
 k8s_resource('adminer', port_forwards=8080)

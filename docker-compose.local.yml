@@ -9,15 +9,11 @@ services:
     container_name: simple-fask-api
     image: simple-fask-api-image
     hostname: simple-fask-api
-    # environment:
-    #   - VIRGA_USER_PASS
-    #   - VIRGA_USER
-    #   - VIRGA_HOST
-    #   - DBuser
-    #   - DBpassword
-    #   - DEPLOY_ENV
-    #   - ORIGIN_1
-    #   - ORIGIN_2
+    environment:
+      - DB_USER_PASS=example
+      - DB_USER=postgres
+      - DB_HOST=db
+      - DB_NAME=postgres
     stdin_open: true
     tty: true
     ports:

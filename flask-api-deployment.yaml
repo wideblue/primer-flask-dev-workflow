@@ -24,7 +24,16 @@ spec:
         io.kompose.service: flask-api
     spec:
       containers:
-        - image: simple-fask-api-image
+        - env:
+            - name: DB_HOST
+              value: db
+            - name: DB_NAME
+              value: postgres
+            - name: DB_USER
+              value: postgres
+            - name: DB_USER_PASS
+              value: example
+          image: simple-fask-api-image
           name: simple-fask-api
           ports:
             - containerPort: 8000

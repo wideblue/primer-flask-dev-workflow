@@ -2,6 +2,7 @@
 import psycopg2
 from psycopg2 import Error
 import psycopg2.extras
+import os
 from flask import Flask, request, jsonify
 app = Flask(__name__)
 app.config["DEBUG"] = True
@@ -10,10 +11,10 @@ def get_idmm_data(idmm):
     try:
         # Connect to an existing database
         connection = psycopg2.connect(
-        host="db",
-        database="postgres",
-        user="postgres",
-        password="example")
+        host = os.getenv('DB_HOST', 'db'),
+        database = os.getenv('DB_NAME', 'postgres'),
+        user = os.getenv('DB_USER', 'postgres'),
+        password = os.getenv('DB_USER_PASS', 'example'))
 
         # Create a cursor to perform database operations
         cursor = connection.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
