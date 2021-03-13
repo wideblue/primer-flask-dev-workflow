@@ -28,7 +28,7 @@ spec:
         - env:
             - name: POSTGRES_PASSWORD
               value: example
-          image: postgis/postgis:10-2.5
+          image: registry.redhat.io/rhscl/postgresql-10-rhel7
           name: db
           ports:
             - containerPort: 5432
