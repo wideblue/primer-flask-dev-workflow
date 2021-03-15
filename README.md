@@ -1,4 +1,7 @@
 
+Remote development issue updateRemoteUserUID for Docker Compose
+https://github.com/microsoft/vscode-remote-release/issues/2228
+https://github.com/microsoft/vscode-remote-release/issues/49#issuecomment-489105458
 
 gunzip -c ime_datoteke | psql ime_baze -U ime_uporabnika
 
