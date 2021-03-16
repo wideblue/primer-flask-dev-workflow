@@ -52,7 +52,7 @@ Kaj potrebujemo za zagon aplikacije v kubernetes gruči:
 
 Zaganjanje aplikacije v kubernetes gruči zahteva izvedbo sledečih korakov:
 1. Izgradnja slike za vsebnik
-2. Potis slike vsebnika v register slik
+2. Potisk slike vsebnika v register slik
 3. Zagon vsebnika v gruči (preko manifestov)
 
 Zato, da nam ob vsaki spremebi kode teh korakov ni potrebno izvajati ročno si lahko pri razvoju pomagamo z orodjem [Tilt](https://tilt.dev/), ki bo te korake za nas izvajal na samodejen način.
@@ -72,3 +72,9 @@ tilt up
 ```
 
 Sedaj lahko začnemo s pisanjem kode, Tilt pa bo samodejno spravljal v kubernetes gručo nove verzije kode.
+
+
+##### Možna težava
+Jaz sem naletel pri delu na naslednjo težavo:
+[Pods evicted due to lack of disk space](https://k3d.io/faq/faq/#pods-evicted-due-to-lack-of-disk-space),
+ki sem jo razrešil, tako da smem pobrisal slike in vsebnike, ki jih nisem uporabljal z `docker system prune`
