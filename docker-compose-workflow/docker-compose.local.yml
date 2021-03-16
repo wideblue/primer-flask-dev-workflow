@@ -6,9 +6,9 @@ services:
       context: .
       dockerfile: ./Dockerfile
     # command: bash
-    container_name: simple-fask-api
-    image: simple-fask-api-image
-    hostname: simple-fask-api
+    container_name: simple-flask-api
+    image: simple-flask-api-image
+    hostname: simple-flask-api
    # user: "damjan"
     environment:
       - DB_USER_PASS=example

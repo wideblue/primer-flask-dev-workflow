@@ -33,13 +33,13 @@ spec:
               value: postgres
             - name: DB_USER_PASS
               value: example
-          image: simple-fask-api-image
-          name: simple-fask-api
+          image: simple-flask-api-image
+          name: simple-flask-api
           ports:
             - containerPort: 8000
           resources: {}
           stdin: true
           tty: true
-      hostname: simple-fask-api
+      hostname: simple-flask-api
       restartPolicy: Always
 status: {}
