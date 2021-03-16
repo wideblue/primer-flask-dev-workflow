@@ -56,7 +56,7 @@ deploy-sever:
     #- sed -i "s|DB-USER|$DB_USER|g" api-deploy.yaml
     - sed -i "s|localhost|primer-flask-dev-workflow.apps.msc.arso.sigov.si|g" flask-api-ingress.yaml
     #- sed -i "s|skz-rest-api:latest|$CI_REGISTRY_IMAGE:${CI_COMMIT_SHORT_SHA:0:7}|g" api-deploy.yaml
-    - sed -i "s|simple-fask-api-image|$REGISTRY:${CI_COMMIT_SHORT_SHA:0:7}|g" flask-api-deployment.yaml
+    - sed -i "s|simple-flask-api-image|$REGISTRY:${CI_COMMIT_SHORT_SHA:0:7}|g" flask-api-deployment.yaml
     - kubectl apply -f docker-config-secret.yaml
 
     #- kubectl apply -f db-dump-configmap.yaml
