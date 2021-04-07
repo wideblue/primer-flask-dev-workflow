@@ -33,7 +33,7 @@ build-image:
 #    - echo "{\"auths\":{\"https://registry.arso-cicd.si\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
 #   - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $CI_REGISTRY_IMAGE:${CI_COMMIT_SHORT_SHA:0:7}
 
-    - /kaniko/executor --context $CI_PROJECT_DIR/$K8S_CONTEXT --dockerfile $CI_PROJECT_DIR/$K8S_CONTEXT/Dockerfile --destination $REGISTRY:${CI_COMMIT_SHORT_SHA:0:7} --snapshotMode=redo
+    - /kaniko/executor --context ${CI_PROJECT_DIR}/${K8S_CONTEXT} --dockerfile ${CI_PROJECT_DIR}/${K8S_CONTEXT}/Dockerfile --destination $REGISTRY:${CI_COMMIT_SHORT_SHA:0:7} --snapshotMode=redo
 deploy-sever:
   stage: deploy
   image: lachlanevenson/k8s-kubectl:v1.18.0
