@@ -26,13 +26,13 @@ spec:
       containers:
         - env:
             - name: DB_HOST
-              value: db
+              value: database-articles
             - name: DB_NAME
               value: postgres
             - name: DB_USER
               value: postgres
             - name: DB_USER_PASS
-              value: example
+              value: postgres
           image: simple-flask-api-image
           name: simple-flask-api
           ports:
