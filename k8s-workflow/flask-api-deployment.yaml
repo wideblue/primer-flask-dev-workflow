@@ -26,7 +26,7 @@ spec:
       containers:
         - env:
             - name: DB_HOST
-              value: database-articles.postgres.cluster.local
+              value: database-articles.postgres.svc.cluster.local
             - name: DB_NAME
               value: postgres
             - name: DB_USER
