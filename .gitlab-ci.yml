@@ -14,8 +14,9 @@ build-image:
 #  services:
 #   - docker.io/docker:dind
   tags:
-    - kubernetes
-    - cluster
+    - openshift
+    #- kubernetes
+    #- cluster
   environment:
     name: default
 #  before_script:
