@@ -58,14 +58,9 @@ deploy-sever:
     - sed -i "s| db| database-articles.postgres.svc.cluster.local|g" flask-api-deployment.yaml
     - sed -i "s|example|$DB_PASSWORD|g" flask-api-deployment.yaml
     - kubectl apply -f docker-config-secret.yaml
-
-    #- kubectl apply -f db-dump-configmap.yaml
-    #- kubectl apply -f db-deployment.yaml
-    #- kubectl apply -f db-service.yaml
-    #- kubectl exec $(kubectl get pod -l io.kompose.service=db -o jsonpath={.items[0].metadata.name}) -- bash -c  "gunzip -c /db_data_dump/idmm.gz | psql postgres -U postgres"
     - kubectl apply -f flask-api-deployment.yaml
     - kubectl apply -f flask-api-service.yaml
     - kubectl apply -f flask-api-ingress.yaml
-    
    # - sleep 30m
+  when: manual 
 
