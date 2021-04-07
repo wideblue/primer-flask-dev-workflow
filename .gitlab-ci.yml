@@ -52,13 +52,11 @@ deploy-sever:
     # NOTE for sed I needed to use colon : as separator because it is not present in base64 ecripted strings, also had problems using base64 encoded strings with sed that is why this I  use this strange code with echo to remove all whitespaces
     - export configvar=$(cat config.json|base64)
     - sed -i "s:base64-encripted-config:$(echo -e $configvar | tr -d '[:space:]'):g" docker-config-secret.yaml
-    # NOTE: patern substitution DB-USER-NI has to be befor DB_USER because the latter one will also  substitute the formal, the same is with DB_PASS_NI and DB_PASS
-    #- sed -i "s|DB-USER-NI|$DB_USER_NI|g" api-deploy.yaml 
-    #- sed -i "s|DB-PASS-NI|$DB_PASS_NI|g" api-deploy.yaml
-    #- sed -i "s|DB-USER|$DB_USER|g" api-deploy.yaml
     - sed -i "s|localhost|primer-flask-dev-workflow.apps.msc.arso.sigov.si|g" flask-api-ingress.yaml
     #- sed -i "s|skz-rest-api:latest|$CI_REGISTRY_IMAGE:${CI_COMMIT_SHORT_SHA:0:7}|g" api-deploy.yaml
     - sed -i "s|simple-flask-api-image|$REGISTRY:${CI_COMMIT_SHORT_SHA:0:7}|g" flask-api-deployment.yaml
+    - sed -i "s| db| database-articles.postgres.svc.cluster.local|g" flask-api-deployment.yaml
+    - sed -i "s|example|$DB_PASSWORD|g" flask-api-deployment.yaml
     - kubectl apply -f docker-config-secret.yaml
 
     #- kubectl apply -f db-dump-configmap.yaml
