@@ -19,7 +19,7 @@ def get_idmm_data(idmm):
         # Create a cursor to perform database operations
         cursor = connection.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
         # Executing a SQL query
-        cursor.execute(f'SELECT idmm, st_postaje, ime_postaje FROM idmm WHERE idmm={idmm};')
+        cursor.execute(f'SELECT idmm, st_postaje, ime_postaje, ge_sirina FROM idmm WHERE idmm={idmm};')
         # Fetch result
         record = cursor.fetchall()
         # print(record)
