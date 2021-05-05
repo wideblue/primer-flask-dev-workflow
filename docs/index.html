@@ -1,0 +1,401 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>reveal.js</title>
+
+	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/reveal.css">
+	<link rel="stylesheet" href="css/theme/sky.css">
+
+	<!-- Theme used for syntax highlighting of code -->
+	<link rel="stylesheet" href="lib/css/monokai.css">
+
+	<!-- Printing and PDF exports -->
+	<script>
+		var link = document.createElement('link');
+		link.rel = 'stylesheet';
+		link.type = 'text/css';
+		link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+		document.getElementsByTagName('head')[0].appendChild(link);
+	</script>
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section data-markdown>
+				## Zaganjanje vsebnikov v produkcijskem okolju 
+			</section>	
+			<section data-markdown>
+				##### Vsebniki (kontejnerji)
+
+				- Predstavljajo rešitev za problem, kako zagotoviti, da bo programsk oprema delovala zanesljivo ob
+				prenosu iz enega računalniškega okolja v drugo.
+				- Vrsta lahkotnejše vitualizacije.
+
+			</section>
+			<section>
+				<section data-markdown>
+					<script type="text/template">
+							##### Kje lahko pomagajo vsebniki meni 
+			
+							* Zagon infrastrukture ali razvojnega okolja.
+							* Priprava skripte/aplikacije za zagon v produkciji.<!-- .element: class="fragment" -->
+							</script>
+				</section>
+				<section data-background-iframe="https://www.rocker-project.org/" data-background-interactive>
+					<div id=dockerRocker
+						style="position: absolute; width: 81%; right: 0%; box-shadow: 0 1px 4px rgba(0,0,0,0.5), 0 5px 25px rgba(0,0,0,0.2); background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 10px; font-size: 20px; text-align: left; pointer-events: auto;">
+						<a href="javascript:void(0)" class="closebtn" onclick="closeRocker()">&times;</a>
+						<h5 style="color: #fff;">Primer zagona razvojnega okolja</h5>
+						<p>Glej https://www.rocker-project.org/ </p>
+						<pre style="width: 100%; font-size: 16px; "><code class="hljs language-bash" >#enovrstični ukaz razdeljen na več vrstic, kar deluje v bash-u ne v powershell-u
+docker run \
+-e PASSWORD=arso  `# Nastavitev okoljske spremenljivke za geslo` \
+--rm  `# vesebnik se izbriše po zaustavitvi` \
+-p 8787:8787  `# port na gostitelju posredujemo istemu portu v vsebniku` \
+-v /output:/home/rstudio  `# v vsebnik vmestim mapo /output iz gostitelja` \
+rocker/rstudio:3.6.2  `# ime slike, ki se bo prenesla iz DockerHub-a` 
+									</code></pre>
+					</div>
+					<span style="font-size:30px;cursor:pointer; pointer-events: auto;  float: right"
+						onclick="openRocker()">&#9776;</span>
+					<script>
+						function openRocker() {
+							document.getElementById("dockerRocker").style.width = "80%";
+						}
+
+						function closeRocker() {
+							document.getElementById("dockerRocker").style.width = "0";
+						}
+					</script>
+				</section>
+			</section>
+			<!-- <section data-background-iframe="http://127.0.0.1:8080/" data-background-interactive>
+			</section> -->
+			<section>
+			<section data-markdown>
+				##### Kubernetes (OpenShift/OKD) gruča
+
+				- Orkestrator za vsebnike
+				  * optimalno razporejanje bremena
+				  * večja zanesljivost delovanja
+				  * horizontalno skaliranje
+				- Enotna platforma
+				- Olajša vzpostavitev CI/CD
+
+				Uvod v kubernetes 
+				
+				https://www.jeremyjordan.me/kubernetes/
+
+			</section>
+			<section data-markdown>
+				##### Dodatne prednosti za administratorje
+
+				- ni potrebno upravljati programskih knjižnic
+				- enoto upravljanje gruče strežnikov
+				- posodabljanje brez nedostopnosti ("downtime")				 
+				- enoten pregled nad viri
+				- skupo zbiranje sistemskih dnevnikov
+
+			</section>
+			<section data-markdown>
+				##### Dodatne prednosti za razvijalce
+
+				- samostojen dostop do virov (selfservice)
+				- prosta izbira programskega okolja
+
+			</section>
+		</section>
+			<section data-markdown>
+				##### Kako bo to vplivalo na razvijalce
+
+				- SPA (HTML, JS), PHP web: skupen web strežnik, vsebik ni potreben
+				- Python, Perl, Nodejs,PHP, R, Go, C++: aplikacije in skripte v vsebnikih  
+
+			</section>
+			<section>
+				<h5>Potek dela</h5>	
+				<p>Lokalno okolje &#8594; Gitportal (CI/CD) &#8594; Produkcija</p>
+			</section>
+			<section data-markdown>
+				##### Lokalno razvijalsko okolje
+
+				1. Direktno na delovni postaji (WSL)
+				2. Okolje v vsebniku
+				   * enako programsko okolje kot produkcija
+				   * VSC Remote Development
+				3. Kubernetes okolje
+				   * okolje podobno produkciji
+				   * orodja za olajšano delo (Tilt, K3d)
+			</section>
+		   <section> 
+			<section data-markdown>
+				
+				##### Razvoj v vsebniku
+				
+				- Napiši kodo 
+				- Napiši Dockerfile 
+				- Izgradi sliko za vsebnik 
+				- Zaženi vsebnik (z vmeščeno mapo) 
+				- Izvajaj ukaze v vsebniku. 
+				
+			</section>
+			<section style="font-size: 20pt;">
+				<!-- <div style="position: absolute; width: 40%; right: -15%; top: -340px; box-shadow: 0 1px 4px rgba(0,0,0,0.5), 0 5px 25px rgba(0,0,0,0.2); background-color:#1e1e1e ; color: #d4d0cb; padding: 10px; font-size: 25px; text-align: left; pointer-events: auto;">
+						<h5 style="color: #d4d0cb;">TODO</h5>
+						<div  style="color: #d4d0cb; font-size: 18px;">
+								 <input type="checkbox" >Napiši python kodo <br> 
+								 <input type="checkbox" >Napiši Dockerfile <br> 
+								 <input type="checkbox" >Izgradi sliko za vsebnik <br> 
+								 <input type="checkbox" >Zaženi vsebnik (z vmeščenim direktorijem) <br> 
+								 <input type="checkbox" >Izvajaj ukaze v vsebniku. <br> 
+						</div>
+				</div> -->
+				<h5>Python "Hello World" the hard way</h5>
+			<p>test.py</p>	
+			<pre><code class="hljs language-python" data-line-numbers>print("Hello ARSO")	
+			</code></pre>
+			<p>Dockerfile</p>	
+			<pre><code class="hljs language-dockerfile" data-line-numbers>FROM python:3.7	
+COPY test.py .
+CMD python test.py
+			</code></pre>
+			<p>Izgradi sliko test-python</p>	
+			<pre><code class="hljs language-bash" >docker build -t test-python .
+			</code></pre>
+			<p>Zaženi vsebnik </p>	
+			<pre><code class="hljs language-bash" >docker run -it test-python
+			</code></pre>
+			<p>Zaženi vsebnik z vmeščeno mapo /output  </p>	
+			<pre><code class="hljs language-bash" >#tukaj zaganjam vsebnik tako da povozim CMD ukaz iz Dockerfile-a z zagonom bash lupine
+# vsebniku dodelim tudi ime test-vsebnik 
+docker run -it -v /output:/projekt --name test-vsebnik  test-python bash
+# v primeru, da mi v vsebniku že teče storitev (kontinuiran proces) 
+# se lahko na že delujoč vsebink "priklučim" z
+docker exec -it test-vsebnik bash
+			</code></pre>
+			</section>
+			<section data-markdown>
+				<script type="text/template">
+					##### Nodejs the easy way (VSC)
+
+					Glej
+
+					https://code.visualstudio.com/docs/remote/containers#_quick-start-open-an-existing-folder-in-a-container<!-- .element: style="font-size: 18px;" -->
+				</script>	
+			</section> 
+
+			<section> 
+				<h5>Razumevanje Dockerfile-a</h5>	
+				<pre><code class="hljs language-dockerfile" style="font-size: 16px;" data-line-numbers "1|2|3|4|5|6|7|8|9">FROM ... # Nastavi začetno sliko.
+LABEL ...=... # Dodatne oznake za sliko v obliki para ključ vrednost (KEY=VALUE).
+WORKDIR ... # Nastavi delovno mapo.
+COPY ... ... # Kopiranje datotek iz korenske mape za izgradnjo. 
+ADD ... ... # Enako kot COPY, vendar je vir lahko “spletni” in v primeru
+             #   stisnjenega arhiva se izvede razpakiranje.
+RUN ... # Izvedi ukaze (linux lupina, sh )
+ENTRYPOINT ["..."] # Izveden ukaz ob zagonu vsebnika.
+CMD ["..."] # Parametri za ENTRYPOINT.
+EXPOSE NUMBER/PROTOCOL... # Port, ki ga je potrebno odpreti.
+            </code></pre>
+			</section>
+			<section>
+					<h5>Python + Oracle Instant client</h5>	
+					<p style="font-size: 14pt;"> Glej http://gitportal.arso.sigov.si/arso-razvijalci/skz-rest-api/blob/master/Dockerfile</p>
+					<pre><code class="hljs language-dockerfile" style="font-size: 14px;" data-line-numbers="4-7">FROM python:3.6.4
+RUN apt-get update && apt-get install -y libaio1 wget unzip
+WORKDIR /opt/oracle
+RUN wget https://download.oracle.com/otn_software/linux/instantclient/instantclient-basiclite-linuxx64.zip && \
+	unzip instantclient-basiclite-linuxx64.zip && rm -f instantclient-basiclite-linuxx64.zip && \
+	cd /opt/oracle/instantclient* && rm -f *jdbc* *occi* *mysql* *README *jar uidrvci genezi adrci && \
+	echo /opt/oracle/instantclient* > /etc/ld.so.conf.d/oracle-instantclient.conf && ldconfig
+WORKDIR /app
+COPY requirements.txt .
+COPY manage.py .  
+COPY ./api_eko ./api_eko
+COPY ./apis ./apis    
+RUN python -m pip install -r requirements.txt && python manage.py migrate
+EXPOSE 8000
+CMD [ "python", "manage.py", "runserver",  "0.0.0.0:8000" ]
+				 </code></pre>
+				</section>
+            <section>
+			<h5>PHP 5.2 + Apache2 + Oracle IC</h5>	
+			<p style="font-size: 14pt;">Glej http://gitportal.arso.sigov.si/ddvorsek/docker-php52-oracle</p>
+			<pre><code class="hljs language-dockerfile" style="font-size: 14px;" data-line-numbers>FROM ubuntu:16.04
+RUN apt-get update && apt-get -y install software-properties-common
+
+# Install Apache2 / PHP 5.2 & Co.
+
+RUN add-apt-repository ppa:sergey-dryabzhinsky/php52 && apt-get update \
+&& apt-get -y install apache2 php5 libapache2-mod-php5 php5-dev php5-curl php5-xml php5-simplexml php-pear curl libaio-dev libaio1 alien python3-dev build-essential unzip
+
+# Install the Oracle Instant Client    
+ADD oracle/oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm /tmp
+ADD oracle/oracle-instantclient11.2-devel-11.2.0.4.0-1.x86_64.rpm /tmp
+
+RUN alien -i /tmp/oracle-instantclient11.2-basic-11.2.0.4.0-1.x86_64.rpm && alien -i /tmp/oracle-instantclient11.2-devel-11.2.0.4.0-1.x86_64.rpm
+#RUN dpkg -i /tmp/oracle-instantclient12.1-sqlplus_12.1.0.2.0-2_amd64.deb
+#RUN rm -rf /tmp/oracle-instantclient12.1-*.deb
+
+# Set up the Oracle environment variables
+ENV LD_LIBRARY_PATH /usr/lib/oracle/11.2/client64/lib/
+ENV ORACLE_HOME /usr/lib/oracle/11.2/client64/
+
+# Install the OCI8 PHP extension
+RUN echo 'instantclient,/usr/lib/oracle/11.2/client64/lib' | pecl install -f oci8-2.0.12
+# RUN echo "extension=oci8.so" > /etc/php5/apache2/conf.d/30-oci8.ini
+RUN echo extension=oci8.so >> /etc/php52/apache2/php.ini && echo extension=oci8.so >> /etc/php52/cli/php.ini && \
+echo extension=simplexml.so >> /etc/php52/apache2/php.ini && echo extension=simplexml.so >> /etc/php52/cli/php.ini && \
+echo extension=xml.so >> /etc/php52/apache2/php.ini && echo extension=xml.so >> /etc/php52/cli/php.ini
+
+# Enable Apache2 modules
+# RUN a2enmod rewrite
+RUN a2dismod mpm_event && a2enmod php52 && a2enmod mpm_prefork
+
+# Set up the Apache2 environment variables
+ENV APACHE_RUN_USER www-data
+ENV APACHE_RUN_GROUP www-data
+ENV APACHE_LOG_DIR /var/log/apache2
+ENV APACHE_LOCK_DIR /var/lock/apache2
+ENV APACHE_PID_FILE /var/run/apache2.pid
+
+EXPOSE 80
+
+# Run Apache2 in Foreground
+CMD service apache2 start
+         </code></pre>
+		</section>
+		<section> 
+			<h5>Osnovni docker ukazi</h5>	
+			<pre><code class="hljs language-bash" style="font-size: 16px;" data-line-numbers "1|2|3|4|5|6|7">docker run ... ... # Ustvari in zažene vsebnik.
+docker stop IME_ALI_ID_VSEBNIKA # Ustavi vsebnik.
+docker start IME_ALI_ID_VSEBNIKA # Zažene vsebnik.
+docker ps [-a] # Prikaže zagnane ali vse vsebnike. 
+docker rm IME_ALI_ID_VSEBNIKA # Pobriše vse vsebnik.
+docker exec [-it] IME_ALI_ID_VSEBNIKA UKAZ # Izvede ukaz v vsebniku. 
+docker build -t IME:TAG . # Izgradi sliko za vebnik.
+docker image ls # Prikaz slik, ki so na računalniku. 
+		</code></pre>
+		</section>
+        <section data-markdown>
+			<script type="text/template">
+				##### Koristne povezave
+
+				- Docker https://docs.docker.com/install/
+				- VSC  https://code.visualstudio.com/
+				- VSC razvoj v vsebnikih 
+				https://code.visualstudio.com/docs/remote/containers<!-- .element: style="font-size: 24px;" -->
+			</script>	
+		</section>	
+		</section> 
+			<section data-markdown>
+				<script type="text/template">
+				##### Python+Flask razvoj v vsebniku (VSC)
+				Potrebujemo:
+				- python+flask kodo 
+				- Dockerfile (in Docker Compose datoteko)
+
+				Primer projekta najdeš:
+
+				http://gitportal.arso.sigov.si/ddvorsek/primer-flask-dev-workflow<!-- .element: style="font-size: 24px;" -->
+				</script>
+			</section>
+		<section>
+			<section data-markdown>
+				<script type="text/template">
+				##### Python+Flask razvoj v k8s
+				Potrebujemo:
+				- python+flask kodo 
+				- Dockerfile 
+				- Kubernetes manifeste
+
+				Primer projekta najdeš:
+
+				http://gitportal.arso.sigov.si/ddvorsek/primer-flask-dev-workflow<!-- .element: style="font-size: 24px;" -->
+				</script>
+			</section>
+
+			<section data-markdown>
+				<script type="text/template">
+				##### Potrebni manifesti
+				- deployment: flask-api, db, adminer *
+				- service: flask-api, db, adminer *
+				- ingress: flask-api
+				- configmap: db_data_dump
+			
+				<img src="ingress.png" alt="drawing" width="900"/>
+
+				</script>
+			</section>
+			<section >
+			<h5>Kako do manifestov</h5>
+			<p style="font-size: 24pt;">  Ker že ima docker compose datoteko lahko uporabim orodje Kompose
+				https://github.com/kubernetes/kompose </p>
+				<pre><code class="hljs language-bash" style="font-size: 20px;" data-line-numbers "1">kompose convert -f docker-compose.local.yml
+							</code></pre>
+
+				
+			</section>	
+		
+
+			<section data-markdown>
+				<script type="text/template">
+				##### Lokalna razvojna k8s gruča 
+				 `kubectl`
+https://kubernetes.io/docs/tasks/tools/install-kubectl-linux<!-- .element: style="font-size: 24px;" -->
+				
+				in k3d: https://k3d.io<!-- .element: style="font-size: 24px;" -->
+				
+				Zakaj k3d:
+				- hitra postavitev in izbris okolja (znotraj docker vsebnika)
+				- integriran lokalen register slik za vsebnike
+				- integriran ingress kontroler
+				</script>
+			</section>
+
+			<section data-markdown>
+				<script type="text/template">
+					##### Potrebni koraki za zagon v k8s 
+					
+					1. Izgradnja slike za vsebnik
+					2. Potisk slike vsebnika v register slik
+					3. Zagon vsebnika v gruči (preko manifestov)
+                
+					samodejno izvajanje korako z orodjem Tilt 
+				https://docs.tilt.dev/install.html<!-- .element: style="font-size: 24px;" -->
+			</script>
+			</section>
+		</section>
+
+		<section data-markdown>
+				### Hvala !
+		</section>	
+		</div>
+	</div>
+
+	<script src="js/reveal.js"></script>
+
+	<script>
+		// More info about config & dependencies:
+		// - https://github.com/hakimel/reveal.js#configuration
+		// - https://github.com/hakimel/reveal.js#dependencies
+		Reveal.configure({ pdfSeparateFragments: false });
+		Reveal.initialize({
+			hash: true,
+			dependencies: [
+				{ src: 'plugin/markdown/marked.js' },
+				{ src: 'plugin/markdown/markdown.js' },
+				{ src: 'plugin/highlight/highlight.js' },
+				{ src: 'plugin/notes/notes.js', async: true }
+			]
+		});
+	</script>
+</body>
+
+</html>
