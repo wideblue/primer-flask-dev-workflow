@@ -61,6 +61,6 @@ deploy-sever:
     - kubectl apply -f flask-api-deployment.yaml
     - kubectl apply -f flask-api-service.yaml
     - kubectl apply -f flask-api-ingress.yaml
-   # - sleep 30m
+    - sleep 30m
   when: manual 
 
