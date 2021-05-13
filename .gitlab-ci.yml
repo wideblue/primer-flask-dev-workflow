@@ -47,7 +47,7 @@ deploy-sever:
     # - kubectl config 
     - cd $K8S_CONTEXT
     # NOTE: I had to shorten CI_COMMIT_SHORT_SHA to 7 characters, because this is how skaffold is set
-    - echo "{\"auths\":{\"https://registry.arso-cicd.si\":{\"username\":\"\",\"password\":\"REG_TOKEN\"}}}" > config.json
+    - echo "{\"auths\":{\"https://registry.arso-cicd.si\":{\"username\":\"\",\"password\":\"$REG_TOKEN\"}}}" > config.json
     # - echo "{\"auths\":{\"https://index.docker.io/v1/\":{\"username\":\"$REG_USERNAME\",\"password\":\"$REG_PASSWORD\"}}}" > config.json
     # NOTE for sed I needed to use colon : as separator because it is not present in base64 ecripted strings, also had problems using base64 encoded strings with sed that is why this I  use this strange code with echo to remove all whitespaces
     - export configvar=$(cat config.json|base64)
