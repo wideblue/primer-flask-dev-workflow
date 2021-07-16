@@ -40,6 +40,8 @@ spec:
           resources: {}
           stdin: true
           tty: true
+      imagePullSecrets:
+        - name: regcred     
       hostname: simple-flask-api
       restartPolicy: Always
 status: {}
